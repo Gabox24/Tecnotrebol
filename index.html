@@ -5,161 +5,42 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>TECNO TREBOL - Catálogo</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <style>
-body{font-family:Arial, sans-serif;margin:0;background:#f5f5f5;color:#222}
-
-/* --- HEADER CON MORADO DEGRADADO AZULADO --- */
-header{
-  background: linear-gradient(to right, #4b0082, #191970); 
-  color:#fff; 
-  padding:15px 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-.header-container{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-}
-
-.logo {
-  font-size: 28px;
-  font-weight: 900;
-  font-style: italic;
-  color: #fff;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 0px #000, 4px 4px 8px rgba(0,0,0,0.3);
-  letter-spacing: -1px;
-}
-
-.search-wrapper{
-  flex:1;
-  min-width:280px;
-  position:relative;
-}
-.search-box{
-  background:#fff;
-  border-radius:25px;
-  display:flex;
-  padding:5px 15px;
-  align-items:center;
-  border: 1px solid #ccc;
-}
-.search-box input{
-  border:0;
-  outline:none;
-  width:100%;
-  padding:8px;
-  font-size:14px;
-}
-.search-box button{
-  background:#52368c; 
-  color:white;
-  border:0;
-  border-radius:50%;
-  width:35px;
-  height:35px;
-  cursor:pointer;
-}
-
-.sugerencias-box{
-  position:absolute;
-  top:100%;
-  left:0;
-  width:100%;
-  background:white;
-  color:#222;
-  border-radius:8px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.2);
-  z-index:100;
-  display:none;
-  margin-top:5px;
-  max-height:200px;
-  overflow-y:auto;
-}
-.sugerencia-item{padding:10px 15px;cursor:pointer;border-bottom:1px solid #eee;}
-.sugerencia-item:hover{background:#f0f0f0;}
-
+body{font-family:'Poppins', sans-serif;margin:0;background:#f5f5f5;color:#222}
+header{background: linear-gradient(to right, #4b0082, #191970); color:#fff; padding:15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+.header-container{max-width:1200px;margin:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:15px;}
+.logo {font-size: 28px; font-weight: 900; font-style: italic; color: #fff; text-transform: uppercase; text-shadow: 2px 2px 0px #000, 4px 4px 8px rgba(0,0,0,0.3); letter-spacing: -1px;}
+.search-wrapper{flex:1; min-width:280px; position:relative;}
+.search-box{background:#fff; border-radius:25px; display:flex; padding:5px 15px; align-items:center; border: 1px solid #ccc;}
+.search-box input{border:0; outline:none; width:100%; padding:8px; font-size:14px; color:#333;}
+.search-box button{background:#52368c; color:white; border:0; border-radius:50%; width:35px; height:35px; cursor:pointer;}
 .header-info{display:flex;gap:20px;align-items:center;}
-.info-link{
-  color:#fff; 
-  text-decoration:none;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:12px;
-}
-.info-link i{font-size:24px; color: #fff;}
-.info-link strong{display:block;font-size:14px;}
-
+.info-link{color:#fff; text-decoration:none; display:flex; align-items:center; gap:10px; font-size:12px;}
 .container{max-width:1200px;margin:auto;padding:20px}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-  gap:20px;
-}
-.card{
-  background:#fff;
-  padding:15px;
-  border-radius:10px;
-  box-shadow:0 0 10px rgba(0,0,0,0.1); 
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;}
+.card{background:#fff;padding:15px;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; text-align: center;}
+
+/* AJUSTE PARA IMÁGENES 800x800 */
 .card img{
   width:100%;
-  height:180px;
-  object-fit:cover;
+  height:250px;
+  object-fit: contain; /* Muestra la imagen completa */
+  background-color: #f9f9f9;
   border-radius:8px;
-}
-.price{color:#52368c;font-weight:bold;font-size:18px;margin:10px 0;}
-
-.button-group {
-    width: 100%;
-    text-align: center; 
-    margin-top: 5px;
+  margin-bottom: 10px;
 }
 
-.btn{padding:10px 12px;border-radius:8px;border:0;cursor:pointer;margin-top:8px;}
+.price{color:#52368c;font-weight:bold;font-size:18px;margin:5px 0;}
+.desc-text{font-size: 12px; color: #666; margin-bottom: 10px; height: 40px; overflow: hidden;}
+.btn-contact{background:#25D366;color:white;font-weight:bold;text-decoration:none;padding:10px 15px; border-radius:8px; display: inline-block;}
 
-.btn-detail{
-    background:#52368c;
-    color:white;
-    width: auto; 
-    display: inline-block; 
-    margin-bottom: 5px; 
-} 
-.btn-contact{
-  background:#25D366;
-  color:white;
-  font-weight:bold;
-  text-decoration:none;
-  width: auto; 
-  display: inline-block; 
-  text-align:center;  
-  padding:10px 12px; 
-  border-radius:8px; 
-  margin-top:8px;
-}
-
-#modalDetalle{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,0.5);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-  z-index:1000;
-}
-#modalBox{background:white;padding:20px;border-radius:12px;max-width:450px;width:100%;}
-#modalBox img{width:100%;border-radius:8px;}
+#modalDetalle{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:1000;}
+#modalBox{background:white;padding:20px;border-radius:12px;max-width:450px;width:100%;text-align: center;}
+#modalBox img{width:100%; height: 300px; object-fit: contain; border-radius:8px; margin-bottom: 15px;}
 </style>
 </head>
 <body>
@@ -167,142 +48,70 @@ header{
 <header>
   <div class="header-container">
     <div class="logo">Tecno trebol</div>
-    
     <div class="search-wrapper">
       <div class="search-box">
         <input type="text" id="busquedaInput" placeholder="Búsqueda de productos..." onkeyup="buscarProducto()">
         <button><i class="fas fa-search"></i></button>
       </div>
-      <div id="sugerencias" class="sugerencias-box"></div>
     </div>
-
     <div class="header-info">
-      <a href="https://www.google.com/maps" target="_blank" class="info-link">
-        <i class="fas fa-truck-moving"></i>
-        <span>Tenemos Delivery<br><strong>a Nivel Nacional</strong></span>
-      </a>
-      <a href="https://wa.me/584249853350" target="_blank" class="info-link">
-        <i class="fab fa-whatsapp"></i>
-        <span>Contáctanos por<br><strong>WHATSAPP</strong></span>
-      </a>
+      <div class="info-link"><i class="fas fa-truck-moving"></i><span>Tenemos Delivery<br><strong>Nacional</strong></span></div>
+      <a href="https://wa.me/584249853350" target="_blank" class="info-link"><i class="fab fa-whatsapp"></i><span>Contáctanos<br><strong>WHATSAPP</strong></span></a>
     </div>
   </div>
 </header>
 
-<div class="container">
-  <div id="productos" class="grid"></div>
-</div>
+<div class="container"><div id="productos" class="grid"></div></div>
 
-<div id="modalDetalle">
-  <div id="modalBox">
-    <h2 id="modalNombre"></h2>
-    <img id="modalFoto">
-    <p id="modalDescripcion"></p>
-    <div id="modalPrecio" style="font-weight:bold;color:#52368c;"></div>
-    <button class="btn" onclick="cerrarModal()" style="background:#222;color:white;margin-top:15px;">Cerrar</button>
-  </div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+<div id="modalDetalle"><div id="modalBox">
+    <h2 id="modalNombre"></h2><img id="modalFoto"><p id="modalDescripcion"></p>
+    <div id="modalPrecio" style="font-weight:bold;color:#52368c; font-size: 20px;"></div>
+    <button onclick="cerrarModal()" style="background:#222;color:white;border:0;padding:10px 20px;border-radius:8px;margin-top:15px;cursor:pointer;">Cerrar</button>
+</div></div>
 
 <script>
-// --- CONFIGURACIÓN DE TU BASE DE DATOS ---
-const firebaseConfig = {
-  databaseURL: "https://tecnotrebol-67a34-default-rtdb.firebaseio.com"
-};
-
-// --- INICIALIZACIÓN ---
+const firebaseConfig = { databaseURL: "https://tecnotrebol-67a34-default-rtdb.firebaseio.com" };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-const productosRef = db.ref("productos");
+let productos = [];
 
-let productos = []; // Lista global que alimentará tus funciones
-
-// --- ESCUCHA DE DATOS EN TIEMPO REAL ---
-productosRef.on("value", (snapshot) => {
+db.ref("productos").on("value", snapshot => {
   const data = snapshot.val();
-  // Convierte los datos de Firebase en el formato de array que ya usabas
-  productos = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
-  mostrarProductos(); // Llama a tu función original para refrescar la pantalla
+  productos = data ? Object.keys(data).map(id => ({ id: id, ...data[id] })) : [];
+  mostrarProductos();
 });
 
-function mostrarProductos(listaParaMostrar = productos){
+function mostrarProductos(lista = productos) {
   const div = document.getElementById("productos");
   div.innerHTML = "";
-
-  listaParaMostrar.forEach((p,index)=>{
-    const originalIndex = productos.indexOf(p);
-    const card=document.createElement("div");
-    card.className="card";
-    card.innerHTML = `
-      <img src="${p.foto || 'https://via.placeholder.com/300x200'}">
-      <h3>${p.nombre}</h3>
-      <div class="price">${p.precio}</div>
-      
-      <div class="button-group">
-        <button class="btn btn-detail" onclick="verDetalles(${originalIndex})">Ver detalles</button>
-      </div>
-
-      <div class="button-group">
-        <a class="btn btn-contact" 
-           href="https://wa.me/584249853350?text=Hola,%20me%20interesa:%20${encodeURIComponent(p.nombre)}" 
-           target="_blank">
-          Contactar por WhatsApp
-        </a>
-      </div>
-    `;
-    div.appendChild(card);
+  lista.forEach(p => {
+    div.innerHTML += `
+      <div class="card">
+        <img src="${p.foto}" onclick="verDetalles('${p.id}')" style="cursor:pointer">
+        <h3 style="font-size:16px;">${p.nombre}</h3>
+        <div class="price">${p.price || p.precio}</div>
+        <p class="desc-text">${p.descripcion ? p.descripcion.substring(0, 50) + '...' : ''}</p>
+        <a class="btn-contact" href="https://wa.me/584249853350?text=Hola, me interesa: ${encodeURIComponent(p.nombre)}" target="_blank">WhatsApp</a>
+      </div>`;
   });
 }
 
 function buscarProducto() {
-  const input = document.getElementById("busquedaInput");
-  const filtro = input.value.toLowerCase();
-  const sugerenciasDiv = document.getElementById("sugerencias");
-  
-  sugerenciasDiv.innerHTML = "";
-  
-  if (filtro.length === 0) {
-    sugerenciasDiv.style.display = "none";
-    mostrarProductos();
-    return;
-  }
+  const f = document.getElementById("busquedaInput").value.toLowerCase();
+  mostrarProductos(productos.filter(p => p.nombre.toLowerCase().includes(f)));
+}
 
-  const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(filtro));
-
-  if (filtrados.length > 0) {
-    sugerenciasDiv.style.display = "block";
-    filtrados.forEach(p => {
-      const item = document.createElement("div");
-      item.className = "sugerencia-item";
-      item.textContent = p.nombre;
-      item.onclick = () => {
-        input.value = p.nombre;
-        sugerenciasDiv.style.display = "none";
-        mostrarProductos([p]);
-      };
-      sugerenciasDiv.appendChild(item);
-    });
-  } else {
-    sugerenciasDiv.style.display = "none";
-    mostrarProductos([]);
+function verDetalles(id) {
+  const p = productos.find(i => i.id === id);
+  if(p) {
+    document.getElementById("modalNombre").textContent = p.nombre;
+    document.getElementById("modalFoto").src = p.foto;
+    document.getElementById("modalDescripcion").textContent = p.descripcion || "Sin descripción";
+    document.getElementById("modalPrecio").textContent = p.precio;
+    document.getElementById("modalDetalle").style.display = "flex";
   }
 }
-
-function verDetalles(i){
-  const p=productos[i];
-  document.getElementById("modalNombre").textContent=p.nombre;
-  document.getElementById("modalDescripcion").textContent=p.descripcion;
-  document.getElementById("modalPrecio").textContent="Precio: "+p.precio;
-  document.getElementById("modalFoto").src=p.foto;
-  document.getElementById("modalDetalle").style.display="flex";
-}
-
-function cerrarModal(){
-  document.getElementById("modalDetalle").style.display="none";
-}
+function cerrarModal() { document.getElementById("modalDetalle").style.display = "none"; }
 </script>
-
 </body>
 </html>
