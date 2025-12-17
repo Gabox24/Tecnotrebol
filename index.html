@@ -7,215 +7,97 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
 
-
 <style>
-/* Aplicamos Poppins a todo el cuerpo como fuente secundaria para mejorar la estética general */
 body{font-family:'Poppins', Arial, sans-serif;margin:0;background:#f5f5f5;color:#222}
 
-/* --- HEADER CON MORADO DEGRADADO AZULADO --- */
+/* HEADER RESPONSIVO */
 header{
-  /* Degradado Morado-Azulado */
   background: linear-gradient(to right, #4b0082, #191970); 
   color:#fff; 
-  padding:15px 20px;
+  padding:15px 10px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 .header-container{
   max-width:1200px;
   margin:auto;
   display:flex;
+  flex-direction: row;
   flex-wrap:wrap;
   align-items:center;
   justify-content:space-between;
-  gap:15px;
+  gap:10px;
 }
 
-/* Estilo de fuente para TECNO TREBOL (mantenido) */
 .logo {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 900;
   font-style: italic;
-  color: #fff;
   text-transform: uppercase;
-  /* Sombra para el efecto de relieve */
-  text-shadow: 2px 2px 0px #000, 4px 4px 8px rgba(0,0,0,0.3);
-  letter-spacing: -1px;
+  text-shadow: 2px 2px 0px #000;
 }
 
-/* Barra de Búsqueda */
 .search-wrapper{
   flex:1;
-  min-width:280px;
+  min-width:100%; /* En móvil ocupa todo el ancho */
+  order: 3; /* Se mueve abajo en pantallas pequeñas */
   position:relative;
 }
+@media (min-width: 768px) {
+  .search-wrapper { min-width: 300px; order: 2; }
+  .logo { font-size: 28px; }
+}
+
 .search-box{
   background:#fff;
   border-radius:25px;
   display:flex;
   padding:5px 15px;
-  align-items:center;
   border: 1px solid #ccc;
 }
-.search-box input{
-  border:0;
-  outline:none;
-  width:100%;
-  padding:8px;
-  font-size:14px;
-}
-.search-box button{
-  /* Fondo del botón de búsqueda Morado/Azulado */
-  background:#52368c; 
-  color:white;
-  border:0;
-  border-radius:50%;
-  width:35px;
-  height:35px;
-  cursor:pointer;
-}
+.search-box input{border:0;outline:none;width:100%;padding:8px;font-size:14px;}
+.search-box button{background:#52368c;color:white;border:0;border-radius:50%;width:35px;height:35px;cursor:pointer;}
 
-.sugerencias-box{
-  position:absolute;
-  top:100%;
-  left:0;
-  width:100%;
-  background:white;
-  color:#222;
-  border-radius:8px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.2);
-  z-index:100;
-  display:none;
-  margin-top:5px;
-  max-height:200px;
-  overflow-y:auto;
-}
-.sugerencia-item{padding:10px 15px;cursor:pointer;border-bottom:1px solid #eee;}
-.sugerencia-item:hover{background:#f0f0f0;}
+.header-info{display:flex;gap:15px;align-items:center; order: 2;}
+@media (min-width: 768px) { .header-info { order: 3; } }
 
-.header-info{display:flex;gap:20px;align-items:center;}
-.info-link{
-  color:#fff; 
-  text-decoration:none;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:12px;
-}
-.info-link i{font-size:24px; color: #fff;}
-.info-link strong{display:block;font-size:14px;}
+.info-link{color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px;font-size:11px;}
+.info-link i{font-size:20px;}
 
-/* --- CUADRÍCULA DE PRODUCTOS --- */
-.container{max-width:1200px;margin:auto;padding:20px}
+/* CUADRÍCULA DE PRODUCTOS */
+.container{max-width:1200px;margin:auto;padding:15px}
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-  gap:20px;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); /* Tarjetas más pequeñas en móvil */
+  gap:15px;
 }
+@media (min-width: 768px) {
+  .grid { grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:20px; }
+}
+
 .card{
   background:#fff;
-  padding:15px;
+  padding:12px;
   border-radius:10px;
-  /* Sombra Mejorada */
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
   display: flex;
   flex-direction: column;
   align-items: center; 
-  transition: box-shadow 0.3s ease; 
 }
-.card:hover {
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2); 
-}
-.card img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  border-radius:8px;
-}
-.price{color:#52368c;font-weight:bold;font-size:18px;margin:10px 0;}
+.card img{width:100%;height:140px;object-fit:cover;border-radius:8px;}
+@media (min-width: 768px) { .card img { height: 180px; } }
 
-/* Contenedor para botones */
-.button-group {
-    width: 100%;
-    text-align: center; 
-    margin-top: 5px;
-}
+.price{color:#52368c;font-weight:bold;font-size:16px;margin:8px 0;}
 
-.btn{padding:10px 12px;border-radius:8px;border:0;cursor:pointer;margin-top:8px;}
+.btn{padding:10px;border-radius:8px;border:0;cursor:pointer;width:100%;margin-top:5px;font-size:13px;}
+.btn-detail{background:#52368c;color:white;} 
+.btn-contact{background:#25D366;color:white;font-weight:600;text-decoration:none;display:block;text-align:center;}
 
-/* Botón Ver Detalles (Morado/Azulado) */
-.btn-detail{
-    background:#52368c;
-    color:white;
-    width: auto; 
-    display: inline-block; 
-    margin-bottom: 5px; 
-} 
-/* Botón de WhatsApp (Verde) */
-.btn-contact{
-  background:#25D366;
-  color:white;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600; 
-  
-  text-decoration:none;
-  display:inline-block;
-  text-align:center; 
-  width: auto; 
-  padding:10px 12px; 
-  border-radius:8px; 
-  margin-top:8px;
-}
+/* MODAL AJUSTADO PARA TÁCTIL */
+#modalDetalle{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;z-index:1000;}
+#modalBox{background:white;padding:20px;border-radius:12px;width:90%;max-width:450px;max-height:85vh;overflow-y:auto;}
 
-/* Modal */
-#modalDetalle{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,0.5);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-  z-index:1000;
-}
-#modalBox{
-  background:white;
-  padding:20px;
-  border-radius:12px;
-  max-width:450px;
-  width:100%;
-  max-height: 80vh; 
-  overflow-y: auto; /* Permite el scroll en el modal */
-}
-#modalBox img{width:100%;border-radius:8px;}
-/* Mensaje de error/sugerencia */
-.mensaje-busqueda {
-    text-align: center;
-    padding: 30px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: #fff;
-    margin-top: 20px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-/* Estilo para la imagen de error */
-.mensaje-busqueda img {
-    max-width: 150px; /* Tamaño adecuado para la ilustración */
-    margin-bottom: 20px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-.mensaje-busqueda h3 {
-    color: #222; /* Texto principal de error en negro */
-    margin-top: 0;
-}
-/* Centrar las referencias dentro del mensaje */
-.mensaje-busqueda .grid {
-    justify-content: center;
-}
+.mensaje-busqueda {text-align:center;padding:20px;background:#fff;border-radius:8px;margin-top:20px;}
+.mensaje-busqueda img {max-width:120px;margin-bottom:15px;}
 </style>
 </head>
 <body>
@@ -223,198 +105,85 @@ header{
 <header>
   <div class="header-container">
     <div class="logo">Tecno trebol</div>
-    
+    <div class="header-info">
+      <a href="#" class="info-link"><i class="fas fa-truck"></i><span>Delivery<br><strong>Nacional</strong></span></a>
+      <a href="https://wa.me/584249853350" class="info-link"><i class="fab fa-whatsapp"></i><span>Chat<br><strong>WhatsApp</strong></span></a>
+    </div>
     <div class="search-wrapper">
       <div class="search-box">
-        <input type="text" id="busquedaInput" placeholder="Búsqueda de productos..." onkeyup="buscarProducto()">
+        <input type="text" id="busquedaInput" placeholder="Buscar tecnología..." onkeyup="buscarProducto()">
         <button><i class="fas fa-search"></i></button>
       </div>
       <div id="sugerencias" class="sugerencias-box"></div>
     </div>
-
-    <div class="header-info">
-      <a href="https://www.google.com/maps" target="_blank" class="info-link">
-        <i class="fas fa-truck-moving"></i>
-        <span>Tenemos Delivery<br><strong>a Nivel Nacional</strong></span>
-      </a>
-      <a href="https://wa.me/584249853350" target="_blank" class="info-link">
-        <i class="fab fa-whatsapp"></i>
-        <span>Contáctanos por<br><strong>WHATSAPP</strong></span>
-      </a>
-    </div>
   </div>
 </header>
 
-<div class="container">
-  <div id="productos" class="grid"></div>
-</div>
+<div class="container"><div id="productos" class="grid"></div></div>
 
 <div id="modalDetalle">
   <div id="modalBox">
     <h2 id="modalNombre"></h2>
-    <img id="modalFoto">
+    <img id="modalFoto" style="width:100%; border-radius:8px;">
     <p id="modalDescripcion"></p>
-    <div id="modalPrecio" style="font-weight:bold;color:#52368c;"></div>
+    <div id="modalPrecio" style="font-weight:bold;color:#52368c;font-size:20px;"></div>
     <button class="btn" onclick="cerrarModal()" style="background:#222;color:white;margin-top:15px;">Cerrar</button>
   </div>
 </div>
 
 <script>
-/* Carga de productos desde localStorage */
 const productos = JSON.parse(localStorage.getItem("catalogo")) || [];
-const contenedorProductos = document.getElementById("productos");
+const contenedor = document.getElementById("productos");
 
-// Función que revisa si el texto de búsqueda coincide en cualquier campo relevante
-function esCoincidenciaDifusa(producto, filtro) {
-    if (!filtro) return false;
-    const f = filtro.toLowerCase();
-
-    // 1. Coincidencia en Nombre
-    if (producto.nombre && producto.nombre.toLowerCase().includes(f)) return true;
-    
-    // 2. Coincidencia en Descripción
-    if (producto.descripcion && producto.descripcion.toLowerCase().includes(f)) return true;
-    
-    // 3. Coincidencia en Categoría
-    if (producto.categoria && producto.categoria.toLowerCase().includes(f)) return true;
-
-    return false;
-}
-
-// Función para renderizar el mensaje de error y sugerencias
-function mostrarErrorYSugerencias(filtro, listaSugerencias) {
-    // URL de la imagen de error
-    const imagenErrorURL = "http://googleusercontent.com/image_139c62.png"; 
-
-    contenedorProductos.innerHTML = `
-        <div class="mensaje-busqueda">
-            <img src="${imagenErrorURL}" alt="Producto no encontrado">
-            <h3>Lo sentimos, no contamos con este producto en estos momentos.</h3>
-            ${listaSugerencias.length > 0 ? 
-                `
-                <p>Pero quizás te interesen estas otras referencias:</p>
-                <div class="grid" style="margin-top: 20px;">
-                    ${listaSugerencias.map(p => `
-                        <div class="card">
-                            <img src="${p.foto || 'https://via.placeholder.com/300x200'}">
-                            <h4>${p.nombre}</h4>
-                            <div class="price">${p.precio}</div>
-                            <div class="button-group">
-                                <button class="btn btn-detail" onclick="verDetalles(${productos.indexOf(p)})">Ver detalles</button>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-                `
-                : `<p>Intenta con un término de búsqueda diferente.</p>`
-            }
-        </div>
-    `;
-    contenedorProductos.style.display = 'block';
-}
-
-// Función principal de renderizado
-function mostrarProductos(listaParaMostrar = productos){
-  contenedorProductos.innerHTML = "";
-  contenedorProductos.style.display = 'grid'; // Restaura el display para la cuadrícula normal
-  
-  if (listaParaMostrar.length === 0 && document.getElementById("busquedaInput").value.length > 0) {
-      const sugerencias = [];
-      const numSugerencias = Math.min(4, productos.length);
-      const productosDisponibles = [...productos]; 
-      
-      for (let i = 0; i < numSugerencias; i++) {
-          const randomIndex = Math.floor(Math.random() * productosDisponibles.length);
-          sugerencias.push(productosDisponibles[randomIndex]);
-          productosDisponibles.splice(randomIndex, 1);
-      }
-      
-      mostrarErrorYSugerencias(document.getElementById("busquedaInput").value, sugerencias);
-      return;
+function mostrarProductos(lista = productos){
+  contenedor.innerHTML = "";
+  contenedor.style.display = 'grid';
+  if (lista.length === 0 && document.getElementById("busquedaInput").value !== "") {
+    const sugerencias = productos.slice(0, 4);
+    mostrarError(sugerencias);
+    return;
   }
-
-  // Muestra productos normalmente
-  listaParaMostrar.forEach((p,index)=>{
-    const originalIndex = productos.indexOf(p);
-    const card=document.createElement("div");
-    card.className="card";
-    
+  lista.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "card";
     card.innerHTML = `
-      <img src="${p.foto || 'https://via.placeholder.com/300x200'}">
-      <h3>${p.nombre}</h3>
+      <img src="${p.foto || 'https://via.placeholder.com/150'}">
+      <h4 style="margin:8px 0; font-size:14px; text-align:center;">${p.nombre}</h4>
       <div class="price">${p.precio}</div>
-      
-      <div class="button-group">
-        <button class="btn btn-detail" onclick="verDetalles(${originalIndex})">Ver detalles</button>
-      </div>
-
-      <div class="button-group">
-        <a class="btn btn-contact" 
-           href="https://wa.me/584249853350?text=Hola,%20me%20interesa:%20${encodeURIComponent(p.nombre)}" 
-           target="_blank">
-          Contactar por WhatsApp
-        </a>
-      </div>
+      <button class="btn btn-detail" onclick="verDetalles(${productos.indexOf(p)})">Detalles</button>
+      <a class="btn btn-contact" href="https://wa.me/584249853350?text=Me interesa: ${p.nombre}" target="_blank">WhatsApp</a>
     `;
-    contenedorProductos.appendChild(card);
+    contenedor.appendChild(card);
   });
 }
 
-// Función de Búsqueda (Controla el filtrado y las sugerencias)
+function mostrarError(sugs) {
+  contenedor.style.display = 'block';
+  contenedor.innerHTML = `
+    <div class="mensaje-busqueda">
+      <img src="http://googleusercontent.com/image_139c62.png">
+      <h3>Producto no encontrado</h3>
+      <p>Prueba con estas opciones:</p>
+      <div class="grid">${sugs.map(p => `<div class="card"><img src="${p.foto}"><h5>${p.nombre}</h5></div>`).join('')}</div>
+    </div>`;
+}
+
 function buscarProducto() {
-  const input = document.getElementById("busquedaInput");
-  const filtro = input.value.trim();
-  const sugerenciasDiv = document.getElementById("sugerencias");
-  
-  sugerenciasDiv.innerHTML = "";
-  
-  if (filtro.length === 0) {
-    sugerenciasDiv.style.display = "none";
-    mostrarProductos(productos);
-    return;
-  }
-
-  // Filtrado de Coincidencia Directa y Difusa
-  const filtrados = productos.filter(p => esCoincidenciaDifusa(p, filtro));
-
-  if (filtrados.length > 0) {
-    sugerenciasDiv.style.display = "block";
-    const nombresFiltrados = filtrados.map(p => p.nombre);
-    
-    nombresFiltrados.forEach(nombre => {
-        const item = document.createElement("div");
-        item.className = "sugerencia-item";
-        item.textContent = nombre;
-        item.onclick = () => {
-            input.value = nombre;
-            sugerenciasDiv.style.display = "none";
-            buscarProducto(); 
-        };
-        sugerenciasDiv.appendChild(item);
-    });
-    
-    mostrarProductos(filtrados);
-  } else {
-    sugerenciasDiv.style.display = "none";
-    mostrarProductos([]); 
-  }
+  const f = document.getElementById("busquedaInput").value.toLowerCase();
+  const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(f) || p.categoria.toLowerCase().includes(f));
+  mostrarProductos(filtrados);
 }
 
 function verDetalles(i){
-  const p=productos[i];
-  document.getElementById("modalNombre").textContent=p.nombre;
-  document.getElementById("modalDescripcion").textContent=p.descripcion;
-  document.getElementById("modalPrecio").textContent="Precio: "+p.precio;
-  document.getElementById("modalFoto").src=p.foto;
-  document.getElementById("modalDetalle").style.display="flex";
+  const p = productos[i];
+  document.getElementById("modalNombre").innerText = p.nombre;
+  document.getElementById("modalFoto").src = p.foto;
+  document.getElementById("modalDescripcion").innerText = p.descripcion;
+  document.getElementById("modalPrecio").innerText = p.precio;
+  document.getElementById("modalDetalle").style.display = "flex";
 }
-
-function cerrarModal(){
-  document.getElementById("modalDetalle").style.display="none";
-}
-
+function cerrarModal(){ document.getElementById("modalDetalle").style.display = "none"; }
 mostrarProductos();
 </script>
-
 </body>
 </html>
