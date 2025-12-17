@@ -3,68 +3,99 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TECNO TREBOL - Catálogo Online</title>
+<title>TECNO TREBOL - Catálogo</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;900&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <style>
-    /* Mantén tus estilos morados aquí */
-    body{font-family:'Poppins', Arial; margin:0; background:#f5f5f5;}
-    header{background: linear-gradient(to right, #4b0082, #191970); color:#fff; padding:15px;}
-    .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:20px; padding:20px;}
-    .card{background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.1); text-align:center; padding:10px;}
-    .card img{width:100%; height:180px; object-fit:cover;}
-    .precio{color:#4b0082; font-weight:bold; font-size:1.2em;}
+/* TU DISEÑO ORIGINAL EXACTO */
+body{font-family:'Poppins', Arial, sans-serif;margin:0;background:#f5f5f5;color:#222}
+header{background: linear-gradient(to right, #4b0082, #191970); color:#fff; padding:15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+.header-container{max-width:1200px;margin:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:15px;}
+.logo {font-size: 28px; font-weight: 900; font-style: italic; color: #fff; text-transform: uppercase; text-shadow: 2px 2px 0px #000, 4px 4px 8px rgba(0,0,0,0.3); letter-spacing: -1px;}
+.search-wrapper{flex:1; min-width:280px; position:relative;}
+.search-box{background:#fff; border-radius:25px; display:flex; padding:5px 15px; align-items:center; border: 1px solid #ccc;}
+.search-box input{border:0; outline:none; width:100%; padding:8px; font-size:14px;}
+.search-box button{background:#52368c; color:white; border:0; border-radius:50%; width:35px; height:35px; cursor:pointer;}
+.header-info{display:flex;gap:20px;align-items:center;}
+.info-link{color:#fff; text-decoration:none; display:flex; align-items:center; gap:10px; font-size:12px;}
+.info-link i{font-size:24px;}
+.info-link strong{display:block;font-size:14px;}
+.container{max-width:1200px;margin:auto;padding:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;}
+.card{background:#fff;padding:15px;border-radius:10px;box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center;}
+.card img{width:100%;height:180px;object-fit:cover;border-radius:8px;}
+.price{color:#52368c;font-weight:bold;font-size:18px;margin:10px 0;}
+.btn-contact{background:#25D366;color:white;font-weight: 600; text-decoration:none; display:inline-block; padding:10px 12px; border-radius:8px; margin-top:8px;}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>TECNO TREBOL</h1>
+  <div class="header-container">
+    <div class="logo">Tecno trebol</div>
+    <div class="search-wrapper">
+      <div class="search-box">
+        <input type="text" id="busquedaInput" placeholder="Búsqueda de productos..." onkeyup="buscarEnFirebase()">
+        <button><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+    <div class="header-info">
+      <a href="#" class="info-link">
+        <i class="fas fa-truck-moving"></i>
+        <span>Tenemos Delivery<br><strong>a Nivel Nacional</strong></span>
+      </a>
+      <a href="https://wa.me/584249853350" target="_blank" class="info-link">
+        <i class="fab fa-whatsapp"></i>
+        <span>Contáctanos por<br><strong>WHATSAPP</strong></span>
+      </a>
+    </div>
+  </div>
 </header>
 
-<div id="productos-grid" class="grid">
-  </div>
+<div class="container">
+  <div id="productos" class="grid"></div>
+</div>
 
 <script>
-// === CONFIGURACIÓN DE TU FIREBASE (USA LA MISMA QUE EN EL ADMIN) ===
+// Configuración desde tu imagen
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "tecnotrebol-67a34.firebaseapp.com",
-  databaseURL: "https://tecnotrebol-67a34-default-rtdb.firebaseio.com",
-  projectId: "tecnotrebol-67a34",
-  storageBucket: "tecnotrebol-67a34.appspot.com",
-  messagingSenderId: "TU_SENDER_ID",
-  appId: "TU_APP_ID"
+  databaseURL: "https://tecnotrebol-67a34-default-rtdb.firebaseio.com"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+let todosLosProductos = [];
 
-// Obtener productos en tiempo real
+// Carga inicial y tiempo real
 db.ref("productos").on("value", (snapshot) => {
-  const grid = document.getElementById("productos-grid");
-  grid.innerHTML = "";
-  
   const data = snapshot.val();
-  if(data) {
-    Object.keys(data).forEach(key => {
-      const p = data[key];
-      grid.innerHTML += `
-        <div class="card">
-          <img src="${p.foto}">
-          <h3>${p.nombre}</h3>
-          <p class="precio">${p.precio}</p>
-          <p><small>${p.categoria}</small></p>
-          <button style="background:#4b0082; color:#fff; border:none; padding:10px; border-radius:5px; width:100%;">Ver Detalles</button>
-        </div>
-      `;
-    });
-  } else {
-    grid.innerHTML = "<p>No hay productos disponibles actualmente.</p>";
-  }
+  todosLosProductos = data ? Object.values(data) : [];
+  mostrarProductos(todosLosProductos);
 });
+
+function mostrarProductos(lista) {
+  const contenedor = document.getElementById("productos");
+  contenedor.innerHTML = "";
+  lista.forEach(p => {
+    contenedor.innerHTML += `
+      <div class="card">
+        <img src="${p.foto}">
+        <h3>${p.nombre}</h3>
+        <div class="price">${p.precio}</div>
+        <a class="btn-contact" href="https://wa.me/584249853350?text=Hola, me interesa: ${encodeURIComponent(p.nombre)}" target="_blank">
+          Contactar por WhatsApp
+        </a>
+      </div>`;
+  });
+}
+
+function buscarEnFirebase() {
+  const filtro = document.getElementById("busquedaInput").value.toLowerCase();
+  const filtrados = todosLosProductos.filter(p => p.nombre.toLowerCase().includes(filtro));
+  mostrarProductos(filtrados);
+}
 </script>
 </body>
 </html>
