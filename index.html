@@ -7,68 +7,136 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
 <style>
-/* SE MANTIENEN TUS ESTILOS VISUALES EXACTOS */
-body{font-family:'Poppins',sans-serif;margin:0;background:#f5f5f5}
-header{background:linear-gradient(to right,#4b0082,#191970);color:#fff;padding:15px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
-.header-container{max-width:1200px;margin:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:15px}
-.logo{font-size:24px;font-weight:900;font-style:italic;text-transform:uppercase;text-shadow:2px 2px 0 #000}
-.search-box{background:#fff;border-radius:25px;display:flex;padding:5px 15px;width:100%;max-width:400px;border:1px solid #ccc}
-.search-box input{border:0;outline:none;width:100%;padding:8px}
-.container{max-width:1200px;margin:auto;padding:15px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:15px}
-.card{background:#fff;padding:12px;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.15);display:flex;flex-direction:column;align-items:center;transition:transform 0.2s}
-.card img{width:100%;height:140px;object-fit:cover;border-radius:8px}
-.price{color:#52368c;font-weight:bold;font-size:18px;margin:10px 0}
-.btn{padding:10px;border-radius:8px;border:0;cursor:pointer;width:100%;margin-top:5px;font-weight:600}
-.btn-detail{background:#52368c;color:white}
-.btn-contact{background:#25D366;color:white;text-decoration:none;text-align:center}
-#modalDetalle{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;z-index:1000}
-#modalBox{background:white;padding:20px;border-radius:12px;width:90%;max-width:400px;max-height:80vh;overflow-y:auto;text-align:center}
-.error-box{text-align:center;padding:40px;background:white;border-radius:10px;grid-column:1/-1}
+/* DISEÑO ORIGINAL MORADO */
+body{font-family:'Poppins', sans-serif;margin:0;background:#f5f5f5;color:#222}
+header{
+  background: #4b0082; /* Color morado sólido del diseño original */
+  color:#fff; padding:15px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.header-container{
+  max-width:1200px; margin:auto; display:flex; flex-wrap:nowrap; 
+  align-items:center; justify-content:space-between; gap:10px;
+}
+.logo { 
+  font-size: 20px; font-weight: 900; font-style: italic; 
+  text-transform: uppercase; white-space: nowrap;
+}
+
+/* BARRA DE BÚSQUEDA ALARGADA (Como en la imagen) */
+.search-box{
+  background:#fff; border-radius:25px; display:flex; 
+  padding:2px 15px; flex-grow: 1; max-width: 600px; align-items: center;
+}
+.search-box input{border:0; outline:none; width:100%; padding:10px; font-size:14px; color:#666;}
+.search-box i{color:#4b0082; font-size:18px;}
+
+.header-icons{display:flex; gap:10px; align-items:center;}
+.icon-item{text-align:center; font-size:10px; text-decoration:none; color:white;}
+.icon-item i{font-size:18px; display:block;}
+
+/* FORMATO DE PRODUCTOS PARA TELÉFONOS (2 columnas) */
+.container{max-width:1200px; margin:auto; padding:10px}
+.grid{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
+  gap:10px;
+}
+@media (min-width: 768px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap:20px; }
+  .logo { font-size: 28px; }
+}
+
+.card{
+  background:#fff; padding:10px; border-radius:10px; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align:center;
+}
+.card img{width:100%; height:130px; object-fit:cover; border-radius:8px;}
+.price{color:#52368c; font-weight:bold; font-size:16px; margin:8px 0;}
+.btn{padding:8px; border-radius:8px; border:0; cursor:pointer; width:100%; font-weight:600; font-size:12px; margin-top:5px;}
+.btn-detail{background:#52368c; color:white;}
+.btn-contact{background:#25D366; color:white; text-decoration:none; display:block;}
+
+#modalDetalle{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;z-index:1000;}
+#modalBox{background:white;padding:20px;border-radius:12px;width:85%;max-width:400px;text-align:center;}
 </style>
 </head>
 <body>
-<header><div class="header-container"><div class="logo">TECNO TREBOL</div><div class="search-box"><input type="text" id="bus" placeholder="¿Qué buscas?" onkeyup="buscar()"></div></div></header>
-<div class="container"><div id="productos" class="grid"></div></div>
-<div id="modalDetalle"><div id="modalBox"><h2 id="mN"></h2><img id="mF" style="width:100%;border-radius:8px"><p id="mD" style="text-align:left"></p><div id="mP" style="font-size:20px;color:#52368c;font-weight:bold"></div><button class="btn" onclick="cerrar()" style="background:#222;color:white;margin-top:15px">Cerrar</button></div></div>
+
+<header>
+  <div class="header-container">
+    <div class="logo">TECNO TREBOL</div>
+    <div class="search-box">
+        <input type="text" id="bus" placeholder="Buscar tecnología..." onkeyup="buscar()">
+        <i class="fas fa-search"></i>
+    </div>
+    <div class="header-icons">
+        <a href="#" class="icon-item"><i class="fas fa-truck"></i>Delivery</a>
+        <a href="https://wa.me/584249853350" class="icon-item"><i class="fab fa-whatsapp"></i>Chat</a>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+    <div id="productos" class="grid"></div>
+</div>
+
+<div id="modalDetalle">
+  <div id="modalBox">
+    <h2 id="mN"></h2>
+    <img id="mF" style="width:100%; border-radius:8px;">
+    <p id="mD"></p>
+    <div id="mP" style="font-weight:bold; color:#52368c; font-size:20px;"></div>
+    <button class="btn" onclick="document.getElementById('modalDetalle').style.display='none'" style="background:#222; color:white;">Cerrar</button>
+  </div>
+</div>
+
 <script>
-const URL_DB = "https://tecnotrebol-67a34-default-rtdb.firebaseio.com/productos.json";
+// URL de tu Firebase Realtime Database
+const DB_URL = "https://tecnotrebol-67a34-default-rtdb.firebaseio.com/productos.json";
 let productos = [];
 
 async function cargar() {
-  const res = await fetch(URL_DB);
-  const datos = await res.json();
-  productos = datos ? Object.values(datos) : [];
-  render(productos);
+    const res = await fetch(DB_URL);
+    const datos = await res.json();
+    productos = datos ? Object.values(datos) : [];
+    render(productos);
 }
 
 function render(lista) {
-  const div = document.getElementById("productos");
-  div.innerHTML = "";
-  if(lista.length === 0 && document.getElementById("bus").value !== "") {
-    div.innerHTML = `<div class="error-box"><img src="http://googleusercontent.com/image_139c62.png" width="120"><h3>Sin resultados</h3></div>`;
-    return;
-  }
-  lista.forEach((p, i) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `<img src="${p.foto}"><h4>${p.nombre}</h4><div class="price">${p.precio}</div><button class="btn btn-detail" onclick="detalles(${productos.indexOf(p)})">Ver detalles</button><a class="btn btn-contact" href="https://wa.me/584249853350?text=Hola me interesa ${p.nombre}">WhatsApp</a>`;
-    div.appendChild(card);
-  });
+    const div = document.getElementById("productos");
+    div.innerHTML = "";
+    if(lista.length === 0 && document.getElementById("bus").value !== "") {
+        div.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px;"><img src="https://tecnotrebol-67a34-default-rtdb.firebaseio.com/image_139c62.png" width="100"><h3>No encontrado</h3></div>`;
+        return;
+    }
+    lista.forEach((p, i) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+            <img src="${p.foto}">
+            <h4 style="font-size:13px; margin:8px 0;">${p.nombre}</h4>
+            <div class="price">${p.precio}</div>
+            <button class="btn btn-detail" onclick="ver('${p.nombre}','${p.foto}','${p.descripcion}','${p.precio}')">Detalles</button>
+            <a class="btn btn-contact" href="https://wa.me/584249853350?text=Interés: ${p.nombre}">WhatsApp</a>
+        `;
+        div.appendChild(card);
+    });
+}
+
+function ver(n,f,d,p){
+    document.getElementById("mN").innerText=n;
+    document.getElementById("mF").src=f;
+    document.getElementById("mD").innerText=d;
+    document.getElementById("mP").innerText=p;
+    document.getElementById("modalDetalle").style.display="flex";
 }
 
 function buscar() {
-  const f = document.getElementById("bus").value.toLowerCase();
-  render(productos.filter(p => p.nombre.toLowerCase().includes(f)));
+    const f = document.getElementById("bus").value.toLowerCase();
+    render(productos.filter(p => p.nombre.toLowerCase().includes(f)));
 }
-
-function detalles(i) {
-  const p = productos[i];
-  mN.innerText = p.nombre; mF.src = p.foto; mD.innerText = p.descripcion; mP.innerText = "Precio: " + p.precio;
-  modalDetalle.style.display = "flex";
-}
-function cerrar() { modalDetalle.style.display = "none"; }
 cargar();
 </script>
 </body>
 </html>
+
