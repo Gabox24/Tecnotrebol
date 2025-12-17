@@ -46,7 +46,7 @@ function render(lista) {
   const div = document.getElementById("productos");
   div.innerHTML = "";
   if(lista.length === 0 && document.getElementById("bus").value !== "") {
-    div.innerHTML = `<div class="error-box"><img src="http://googleusercontent.com/image_139c62.png" width="120"><h3>Lo sentimos, no contamos con este producto.</h3><p>Prueba buscando otra referencia de tecnología.</p></div>`;
+    div.innerHTML = `<div class="error-box"><img src="http://googleusercontent.com/image_139c62.png" width="120"><h3>Lo sentimos, no contamos con este producto.</h3><p>Pero quizás te interesen estas otras opciones tecnológicas.</p></div>`;
     return;
   }
   lista.forEach((p, i) => {
